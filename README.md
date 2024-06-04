@@ -31,25 +31,7 @@ Imagen a scenario in which you want to access some File-system (HDD, VMDK, etc..
 ## Flow
 ### Overview
 
-```sequence
-Online env.->build folder: apt install live-build
-Online env.->build folder: mkdir build-folder
-Note left of Offline env.: Replicate on offline env.
-Offline env.->build folder: auto/config_offline
-Note left of Offline env.: Your offline customization here
-Online env.->build folder: auto/config_online
-Note right of Online env.: Your online customization here
-Note left of Offline env.: Prepare config to load from Local repo
-Note right of Online env.: Cache packages config
-Online env.->build folder: auto/build
-build folder-->Online env.: saves packages for offline use
-build folder-->>Online env.: Online-build iso image
-Online env.->>Offline env.: -----Copy cached packages-----
-Offline env.-->Offline env.: Setup Local repo
-Note right of Offline env.: ex: http://localhost:8000
-Offline env.->build folder: auto/build
-build folder-->>Offline env.: Offline-build iso image
-```
+![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main%20page/build-process.jpg)
 
 ### Requirements
 - [ ] Debian distro
@@ -86,15 +68,7 @@ Reading state information...
 
 ## Stages of iso
 
-```sequence
-Note left of bootstrap: from sources
-bootstrap->chroot: minimal debian root-fs
-Note left of chroot: adding functionality to live
-chroot->binary: setting up packed root-fs
-Note left of binary: adding boot and files to iso
-binary->source: optional - not relevant
-Note left of source: adding source files and packages
-```
+![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main%20page/build-stages.jpg)
 
 
 ## live-config
