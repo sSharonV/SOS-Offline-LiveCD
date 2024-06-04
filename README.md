@@ -256,11 +256,11 @@ Let's go throught the changes that occurs in ***build-folder***
 	```
 	then, finally, you can try to boot your default live-cd in your favorite environment!
 
-	### Default iso looks like:
-		- Boot
-		![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main%20page/boot_default.jpg)
-		- Login
-		![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main%20page/login_default.jpg)
+### Default iso looks like:
+	- Boot
+	![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main%20page/boot_default.jpg)
+	- Login
+	![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main%20page/login_default.jpg)
 	
 
 ## Contributing
