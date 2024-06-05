@@ -21,20 +21,20 @@
 ------------
 
 ## Intro.
-This guide will walk you through the process of creating a live cd that enable you to run Dissect with docker container on LiveCD.
+This guide will walk you through the process of creating a live cd that enables you to run Dissect with a docker container on LiveCD.
 - [x] [Docker](https://docs.docker.com/ "Docker"): Open-source platform for developing, shipping, and running applications in isolated containers.
-- [x] [Dissect](https://github.com/fox-it/dissect "Dissect"): Open-source DFIR framework and toolset that allows you to quickly access and analyse forensic artefacts from various disk and file formats
+- [x] [Dissect](https://github.com/fox-it/dissect "Dissect"): Open-source DFIR framework and toolset that allows you to quickly access and analyze forensic artifacts from various disk and file formats
 
 ### Purpose of this page
 - [ ] **Maintaining docker images for the live-cd usage**
 	> Limitation running docker on read-only file-system - [Discussion on docker forum](https://forums.docker.com/t/docker-on-a-livecd/136225/18 "Discussion on docker forum")
-- [ ] Examples on how to use `config/` directory for various needs
+- [ ] Examples of how to use `config/` directory for various needs
 
 ### Flow
 1. Understand how to build our first customized live-cd
 	- [x] live-cd with installed docker packages
-	- [x] docker daemon that's operate under the the read-only limitation
-2. Demonstration how to update docker images that are shipped with you customized live-cd
+	- [x] docker daemon that operates under the read-only limitation
+2. Demonstration of how to update docker images that are shipped with your customized live-cd
 
 ------------
 
@@ -62,12 +62,12 @@ This guide will walk you through the process of creating a live cd that enable y
 	```
 
 - I'll wrap it in a script (docker_install.sh) and copy it to `config/hooks/live/9030-docker-init.hook.chroot`.
-	>rename the script to correspond to the latest script executed during live system build
+	> Rename the script to correspond to the latest script executed during live system build
 
 #### Docker daemon initialization
 
-- Docker daemon needs to be initialized in a such way the `/var/lib/docker` will be writable directory for docker-daemon to work properly with device-driver `overlay2` on it's startup during boot process.
-- In order to define it we can put `daemon.json` in `config/includes.chroot_after_packages/etc/docker/`:
+- Docker daemon needs to be initialized in a such way the `/var/lib/docker` will be a writable directory for docker-daemon to work properly with device-driver `overlay2` on its startup during the boot process.
+- To define it we can put `daemon.json` in `config/includes.chroot_after_packages/etc/docker/`:
   ```bash
   {
   	"storage-driver": "overlay2"
@@ -81,8 +81,8 @@ This guide will walk you through the process of creating a live cd that enable y
 
 #### Writable file-system
 - The last phase during this init process is to create the `docker.fs` file which will handle docker-daemon operations
-- In order to achive this we will create a `sparse file`: `docker.fs`
-	> Sparse file is a type of file that efficiently uses disk space by only allocating storage for the parts of the file that contain non-zero data. The regions of the file that contain zero bytes do not consume any physical storagfe space on the disk
+- To achieve this we will create a `sparse file`: `docker.fs`
+	> Sparse file is a type of file that efficiently uses disk space by only allocating storage for the parts of the file that contain non-zero data. The regions of the file that contain zero bytes do not consume any physical storage space on the disk
 
 	```bash
 	root@on-debian:/online-live# mkdir -p config/includes.chroot_after_packages/var/lib/
@@ -104,8 +104,8 @@ This guide will walk you through the process of creating a live cd that enable y
 	Writing superblocks and filesystem accounting information: done
 	```
 
-	>To determine the desired `docker.fs` size execute `ls -ls /var/lib/docker` on the livecd when done updating docker content.
-`-s` flag gives us the actually used space and the allocated
+	>To determine the desired `docker.fs` size execute `ls -ls /var/lib/docker` on the live-cd when done updating docker content.
+`-s` flag gives us the used space and the allocated
  
 	```bash
 	root@on-debian:/online-live# ls -ls config/includes.chroot_after_packages/var/lib/docker.fs 
@@ -113,7 +113,7 @@ This guide will walk you through the process of creating a live cd that enable y
 	```
 
 #### Build - V1
-By now, we got a `config/` directory that includes some changes that will take place while we build the live-cd on the online environment.
+By now, we have a `config/` directory that includes some changes that will take place while we build the live-cd on the online environment.
 ```bash
 config/
 ├── hooks
@@ -130,14 +130,14 @@ config/
 
 ### Docker-Setup
 
-Let's build the live-cd in order to power it up and start using Docker!
+Let's build the live-cd to power it up and start using Docker!
 
 #### Interactive shell
 - `live-build` gives us the ability to enter the live environment during the build process executed with `auto/build`
-	>In order to enable it we simply update `auto/config` with the flag `--interactive true` before we start the build.
+	> To enable it we simply update `auto/config` with the flag `--interactive true` before we start the build.
 
-- In order to overwrite the out-dated config in `config/` run it again (`auto/config`) before you proceed with the build stage.
-	>Also notice that `cache/bootstrap` is existed to short the build time 
+- To overwrite the outdated config in `config/` run it again (`auto/config`) before you proceed with the build stage.
+	>Also notice that `cache/bootstrap` exists to shorten the build time 
 ```bash
 root@on-debian:/online-live# auto/clean
 root@on-debian:/online-live# auto/config
@@ -161,10 +161,10 @@ exit
 ...
 ...
 ```
- - Notice that we cant really update docker with images because `chroot` stage isn't running `systemctl`
-	>You can use this stage to perform live installations with the CLI instead of using the scripts in the `config/` directory as i showed in my example
+ - Notice that we can't update docker with images because `chroot` stage isn't running `systemctl`
+	>You can use this stage to perform live installations with the CLI instead of using the scripts in the `config/` directory as I showed in my example
 
- - After you done performing your additional test in the `chroot` stage type `exit` to continue the build process
+ - After you are done performing your additional test in the `chroot` stage type `exit` to continue the build process
 
 #### Boot the ISO (Build - V1)
 
@@ -181,7 +181,7 @@ exit
 	![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/online/no_space_error_docker.jpg)
 
 ##### Update `docker.fs` on online live-cd
-- In order to achive this all we need to do is:
+- To achieve this all we need to do is:
 	```bash
 	# Unmount old docker.fs
 	systemctl stop docker
@@ -194,30 +194,30 @@ exit
 	systemctl start docker
 	```
 - I've wrapped this with `create_new_fs.sh` and included it with my online environment build-folder (`config/includes.chroot_after_packages/mnt/create_new_fs.sh`)
-	> I think it's simplify the updating phase of `docker.fs`
-- After checking the image size (244Mb), let's add some extra space (~56Mb) which sums up to total 314,572,800 bits
-- Now the pull command will succesfully pull the image
+	> I think it simplifies the updating phase of `docker.fs`
+- After checking the image size (244Mb), let's add some extra space (~56Mb) which sums up to a total 314,572,800 bits
+- Now the pull command will successfully pull the image
 	![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/online/sucess_dissect_pull.jpg)
 
 - Then run it using the following command:
 	```bash
 	docker run -it --rm -v /mnt:/mnt:ro ghcr.io/fox-it/dissect
 	```
-	>From my experience it's nessecary to run it once before saving the new `docker.fs`.
+	>From my experience it's necessary to run it once before saving the new `docker.fs`.
  
 	![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/online/usable_dissect.jpg)
 
 ##### Overwrite old `docker.fs` in `config/` in build-folder
 - before proceeding execute `systemctl stop docker` && `umount /var/lib/docker`.
 - Run python http-server (`python3 -m http.server -d /var/lib/ 8000`) to transfer the updated `docker.fs` from the booted live-cd into your online environment build-folder.
-	>You can install it on the live-cd during the development phase - it will be deleted on resets if python is not really nessecary for you.
-- Once you've done transferring new `docker.fs`, just overwrite the old one located in `config/includes.chroot_after_packages/var/lib`.
+	>You can install it on the live-cd during the development phase - it will be deleted on resets if python is not necessary for you.
+- Once you've done transferring the new `docker.fs`, just overwrite the old one located in `config/includes.chroot_after_packages/var/lib`.
 
 #### Build - V2
->After checking my self im sure that 2 packages are not cached during build process: `liblzo2-2` and `squashfs-tools`
+>After checking myself I'm sure that 2 packages are not cached during the build process: `liblzo2-2` and `squashfs-tools`
 - I added it with `for_offline.list.chroot` to make sure you don't miss it.
 
-- Now we can look at our `config/` directory after we done some changes to handle new docker image installation
+- Now we can look at our `config/` directory after we have made some changes to handle the new docker image installation
 ```bash
 config/
 ├── hooks
@@ -229,17 +229,17 @@ config/
 │   │       └── daemon.json
 │   ├── mnt
 │   │   └── docker_utils
-│   │       └── create_new_fs.sh (handles creation of new `docker.fs` with updated size)
+│   │       └── create_new_fs.sh (handles the creation of new `docker.fs` with updated size)
 │   └── var
 │       └── lib
 │           └── docker.fs (updated on the live-cd)
 ├── packages-lists
-│   ├── for_offline.list.chroot (packages that for some reason didn't cached)
+│   ├── for_offline.list.chroot (packages that for some reason didn't cache)
 │   └── live.list.chroot
 ```
 
 ##### Using cached packages for efficient build stage
-- In order to not over-use the network bandwith we can use the cached packages from the previous build (Build -V1)
+- To not over-use the network bandwidth we can use the cached packages from the previous build (Build -V1)
 	```bash
 	root@on-debian:/online-live# cp -r cache/packages.chroot config/
 	root@on-debian:/online-live# cp -r cache/packages.bootstrap config/
@@ -254,7 +254,7 @@ config/
 
 - Also, we can update `9030-docker-init.hook.chroot` to just `apt install ...` (For offline use)
 	```bash
-	# Install the latest version from cached live-build process, run:
+	# Install the latest version from the cached live-build process, run:
 	sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 	# Update the filesystem that docker daemon will use before starting on boot
@@ -273,14 +273,14 @@ config/
 │   │       └── daemon.json
 │   ├── mnt
 │   │   └── docker_utils
-│   │       └── create_new_fs.sh (handles creation of new `docker.fs` with updated size)
+│   │       └── create_new_fs.sh (handles the creation of new `docker.fs` with updated size)
 │   └── var
 │       └── lib
 │           └── docker.fs (updated on the live-cd)
 ├── packages-lists
-│   ├── for_offline.list.chroot (packages that for some reason didn't cached)
+│   ├── for_offline.list.chroot (packages that for some reason didn't cache)
 │   └── live.list.chroot
-├── packages.binary (using cached packages from binary stage)
+├── packages.binary (using cached packages from the binary stage)
 ├── packages.chroot (using cached packages from chroot+bootstrap stage)
 ```
 
@@ -305,11 +305,11 @@ config/
 	```
 
 ### What's next?
-- Now you know how to make your own customized live-cd that run different tools using docker.
+- Now you know how to make your own customized live-cd that runs different tools using docker.
 	- You've learned how to supply files and scripts to the build process.
-	- You've practiced the different options avaliable by `live-build` to fulfill different needs.
+	- You've practiced the different options available by `live-build` to fulfill different needs.
  
-- Now, that would be nice to accomplish all this setup in a local environment (aka offline environment) where you could build from scrtach (including bootstrap) without any official mirror.
+- Now, that would be nice to accomplish all this setup in a local environment (aka offline environment) where you could build from scratch (including bootstrap) without any official mirror.
 	- go to the offline guide :)
 
 ### Relevant files for offline environment
