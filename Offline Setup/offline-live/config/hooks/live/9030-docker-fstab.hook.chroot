@@ -1,0 +1,2 @@
+# Update the filesystem that docker daemon will use before starting on boot
+echo '/var/lib/docker.fs /var/lib/docker auto loop 0 0' >> /etc/fstab
