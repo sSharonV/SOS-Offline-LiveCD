@@ -315,10 +315,10 @@ config/
 ### Relevant files for offline environment
 Make sure you're transferring the following:
 - cached packages:
-	- [ ] `config/packages.binary`
-	- [ ] `config/packages.chroot`
+	- [ ] `config/packages.binary` - Consists of all packages needed for boot stage
+	- [ ] `config/packages.chroot` - Consists of all packages needed for bootstrap and chroot stages
 
 - docker initialization files
-	- [ ] `.../etc/docker/daemon.json`
-	- [ ] `.../var/lib/docker.fs`
-	- [ ] `.../mnt/docker-utils` (Optional)
+	- [ ] `.../etc/docker/daemon.json` - Define `overlay2` as device driver for docker-daemon on boot
+	- [ ] `.../var/lib/docker.fs` - Handles docker file-system **(including images)**
+	- [ ] `.../mnt/docker-utils` (Optional) - If you may update `docker.fs` in the live-cd generated
