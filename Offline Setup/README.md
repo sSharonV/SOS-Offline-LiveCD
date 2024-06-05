@@ -139,10 +139,7 @@ Let's understand the changes that need to be done to enable a full offline build
 	example: `ip=eth33:1.1.1.1:255.255.255.0:1.1.1.254:sos-off-live-cd:`
 	```
  - DHCP:
-	```bash
-	ip=:::::eth33:dhcp **(notice the `:`)**
-	example: `ip=eth33:1.1.1.1:255.255.255.0:1.1.1.254:sos-off-live-cd:`
-	``` 
+	> Just leave $FORMATTED_IP empty (`FORMATTED_IP=""`)
 
 ##### Just before you build - Docker setup
 - After you run `auto/config` you will be able to make the following change:
