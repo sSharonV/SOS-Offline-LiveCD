@@ -3,12 +3,12 @@
    		- [Init directory](#init-directory)
      		- [Update repo's metadata](#update-repos-metadata)
        		- [Run your own Local Non-Official Debian mirror](#run-your-own-local-non-official-debian-mirror)
-         - [Build - V3 (Offline edition)](#build---v3-offline-edition)
-         	- [`auto/config` offline edition](#autoconfig-offline-edition)
-          		- [Support our local non-official debian mirror](#support-our-local-non-official-debian-mirror)
+        - [Build - V3 (Offline edition)](#build---v3-offline-edition)
+        	- [`auto/config` offline edition](#autoconfig-offline-edition)
+			- [Support our local non-official debian mirror](#support-our-local-non-official-debian-mirror)
             		- [Interface configuration](#interface-configuration)
               		- [Just before you build - Docker setup](#just-before-you-build---docker-setup)
-                - [Build-folder directory](#build-folder-directory)
+		- [Build-folder directory](#build-folder-directory)
 		
 # LiveCD Setup - Offline environment
 ------------
@@ -161,7 +161,7 @@ Let's understand the changes that needs to be done in order to enable full offli
 	echo '/var/lib/docker.fs /var/lib/docker auto loop 0 0' >> /etc/fstab
 	```
 
-#### Build-folder directory
+### Build-folder directory
 If you didn't miss anything I suggested during this guide, your directories (build-folder/`config` and local-repo/`local_debian_mirror`) would look like:
 ```bash
 config/
