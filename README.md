@@ -3,27 +3,29 @@
 ------------
 
 ## Intro.
-This page will review and try to ease the process to build a ***customized live-cd*** for your own needs.
+This page will review and try to ease the process of building a ***customized live-cd*** for your own needs.
 >### Motivation
-Imagen a scenario in which you want to access some File-system (HDD, VMDK, etc..) but you're not able to install your softwares in order to accomplish your needs:
+Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..) but you're not able to set your customization to handle:
 - [x] Change settings in case of OS Fatal error
-- [x] Retrive some system\application artifact
+- [x] Retrieve some system\application artifact
 - [x] Scan files on the system
 
 >>### The problem
-- [ ] Lack of examples on the internet (As far as for my research :) )
-- [ ] No explnation on how to:
+- [ ] Lack of examples on the internet (As far as my research :) )
+- [ ] No explanation on how to:
 	- maintain offline changes
-	- setting up local repo for bootstrap stage of the live-cd
+	- setting up a local repo for the bootstrap stage of the live-cd
 	- installing docker service for ease of customization needs
 
 ### Examples?!
-> The examples explored in the sub-directories (online-build & offline-build) shows the difference between the configurations and explains the nessaccery changes to live-config
+> The examples explored in the sub-directories (online-build & offline-build) show the difference between the configurations and explain the necessary changes to live-config.
+- Walkthrough to implement your live-cd that can execute Dissect (IR framework) to expand the capabilities you can take anywhere.
 
-- I'll review the additional setups that live-build could help us achive in order to sutisfy our creative needs:
-	- [x] Docker setup
-	- [x] Adapting cached packages to enable bootstrap stage in offline environment
-	- [x] Testing chroot environment during build time
+- I'll review the additional setups that live-build could help us achieve to satisfy our creative needs:
+	- [x] Docker setup.
+ 	- [x] Testing `chroot` environment during build time.
+	- [x] Adapting cached packages to enable the bootstrap stage in an offline environment.
+	
 ------------
 
 ## Flow
@@ -38,10 +40,10 @@ Imagen a scenario in which you want to access some File-system (HDD, VMDK, etc..
 	 ```bash
 	 apt install live-build live-config
 	 ```
-- [ ] Check if defined archives of debian mirror includes "non-free-firmware"
-	>if it's missing the build process will tell you about that
+- [ ] Check if defined archives of Debian mirror include "non-free-firmware"
+	> If it's missing the build process will tell you about that
 
-	the error that is catched during the build process
+	the error that is caught during the build process
 	```bash
 	[2222-00-11 11:22:33] lb chroot_install-packages install
 	P: Begin installing packages (install pass)...
@@ -61,19 +63,18 @@ Imagen a scenario in which you want to access some File-system (HDD, VMDK, etc..
 	Reading state information...
 	```
 
- 	according to `/etc/apt/sources.list` or `/etc/apt/source.list.d` of the host
+ 	> The value can be found in `/etc/apt/sources.list` or `/etc/apt/source.list.d` of the host
  	
 
 ## Stages of iso
 
 ![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main/build-stages.jpg)
 
-
 ## live-config
-Let's go throught the changes that occurs in ***build-folder***
+Let's go through the changes that occur in ***build-folder***
 > I'll focus on different specs relevant for only live-cd, but there are more options for customization even with installation mode for iso
 
-### Default behaviours
+### Default behaviors
 1. Copy examples and edit to the next suggestion
 	```bash
 	root@debian:/build-folder# cp /usr/share/doc/live-build/example/auto ./
@@ -126,7 +127,7 @@ Let's go throught the changes that occurs in ***build-folder***
 	P: Symlinking hooks...
 	```
 	It will output the following tree inside build-folder
-	>This output is relevant for the default config example copied from live-build so you could see how to default config directory looks like.
+	>This output is relevant for the default config example copied from live-build so you can see how the default config directory looks.
 	Later we will build with the '`--clean`' flag which removes empty directories from the final build-folder
 	```bash
 	root@debian:/build-folder# tree -L 3 --dirsfirst
@@ -165,47 +166,47 @@ Let's go throught the changes that occurs in ***build-folder***
 	    └── bin
 	```
 
-3. Lets understand the differenence between them
+3. Let's understand the differences between them
 
 ### auto/
 - #### config
-	This one can help us automate the generation of the files generated in config folder - and make it possible to manage configuration changes with git.
-	Some of the settings referring to mirror, distro names, iso, cache and etc.
+	Helps us automate the generation of the files generated in `config/` folder - and makes it possible to manage configuration changes with git.
+	Some of the settings refer to a mirror, distro names, iso, cache etc.
 	>[lb_config](https://manpages.debian.org/jessie/live-build/lb_config.1.en.html "lb_config")
 
 - #### build
-	This will run the build process according to the information located in config/ directory, while saving it's log to build.log file.
-	Some of the settings helps control the different stages of the build (bootstrap, chroot, binary) to save time while customizing the live-cd.
+	Executes the build process according to the information located in `config/` directory, while saving its log to build.log file.
+	Some of the settings help control the different stages of the build (bootstrap, chroot, binary) to save time while customizing the live-cd.
 	>[lb_build](https://manpages.debian.org/jessie/live-build/lb_build.1.en.html "lb_build")
 
 - #### clean
-	Between the builds there could be some cached information that might damage the build process, so it's recommended to clean the main directory while testing your desired live-cd build stage.
-	Some of the settings helps to control which cached information needs to be deleted.
+	Between the builds, there could be some cached information that might damage the build process, so it's recommended to clean the main directory while testing your desired live-cd build stage.
+	Some of the settings help to control which cached information needs to be deleted.
 	> [lb_clean](https://manpages.debian.org/jessie/live-build/lb_clean.1.en.html "lb_clean")
 
 ### config/
 - #### bootloader
-	Enable to control the files used in boot time (outside the packed file-system) by the bootloader chosen for the live-cd.
+	Controls the files used in boot time (outside the packed file-system) by the bootloader chosen for the live-cd.
 	>[Debian Live Manual - 11.1 - Bootloaders](https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-binary.en.html#617 "Debian Live Manual - 11.1 - Bootloaders")
 
 - #### hooks
-	Enable execution of customized scripts during different phase of the build process - chroot, binary and boot.
+	Controls execution of customized scripts during different phases of the build process - chroot, binary, and boot.
 	> [Debian Live Manual - 9.2 - Hooks](https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-contents.en.html#515 "Debian Live Manual - 9.2 - Hooks")
 
 - #### includes.*
-	Enable to include different files inside different stages of build in order to aid the configurations during build process or just so something would exists in result iso image.
+	Include different files inside different stages of the build process to aid the configurations during the build process or just so something would exist in the result iso image.
 	> [Debian Live Manual - 9.1 - Includes](https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-contents.en.html#499 "Debian Live Manual - 9.1 - Includes")
 
 - #### packages-list
-	Enable additional package installation by supplying a list of packages to install.
+	Additional package installation by supplying a list of packages to install.
 	> [Debian Live Manual - 8.2 - Choosing packages to install](https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-package-installation.en.html#389 "Debian Live Manual - 8.2 - Choosing packages to install")
 
 - #### packages.*
-	Enable the use of cached packages to avoid network traffic when downloading packages during build process.
+	Includes Debian packages to avoid network traffic when downloading packages during the build process.
 	> [Debian Live Manual - 8.2 - Choosing packages to install](https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-package-installation.en.html#389 "Debian Live Manual - 8.2 - Choosing packages to install")
 
 - #### binary, chroot, bootstrap
-	Part of the configurations generated by `lb config` that are overriden when executing auto/config (`lb config -h`).
+	Part of the configurations generated by `lb config` is overridden when executing auto/config (`lb config -h`).
 ------------
 
 ## live-build
