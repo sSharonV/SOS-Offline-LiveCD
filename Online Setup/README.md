@@ -23,29 +23,28 @@ This guide will walk you through the process of creating a live cd that enable y
 ## Let's start
 ### Docker installation - live-cd edition
 #### Getting docker packages
-	- According to the [official installation guide](https://docs.docker.com/engine/install/debian/ "official installation guide") we need to execute the following:
+- According to the [official installation guide](https://docs.docker.com/engine/install/debian/ "official installation guide") we need to execute the following:
+	```bash
+	# Add Docker's official GPG key:
+	sudo apt-get update
+	sudo apt-get install ca-certificates curl
+	sudo install -m 0755 -d /etc/apt/keyrings
+	sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+	sudo chmod a+r /etc/apt/keyrings/docker.asc
+	
+	# Add the repository to Apt sources:
+	echo \
+	  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+	  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+	  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+	sudo apt-get update
+	
+	# To install the latest version, run:
+	sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+	```
 
-		```bash
-		# Add Docker's official GPG key:
-		sudo apt-get update
-		sudo apt-get install ca-certificates curl
-		sudo install -m 0755 -d /etc/apt/keyrings
-		sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-		sudo chmod a+r /etc/apt/keyrings/docker.asc
-
-		# Add the repository to Apt sources:
-		echo \
-		  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-		  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-		  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-		sudo apt-get update
-
-		# To install the latest version, run:
-		sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-		```
-
-	- I'll wrap it in a script (docker_install.sh) and copy it to `config/hooks/live/9030-docker-init.hook.chroot`.
-		>rename the script to correspond to the latest script executed during live system build
+- I'll wrap it in a script (docker_install.sh) and copy it to `config/hooks/live/9030-docker-init.hook.chroot`.
+	>rename the script to correspond to the latest script executed during live system build
 
 #### Docker daemon initialization
 
@@ -57,15 +56,15 @@ This guide will walk you through the process of creating a live cd that enable y
   }
   ```
 - Also, to make `/var/lib/docker` mount a writable file-system on each boot we will add the following to `9030-docker-init.hook.chroot` as part of the init process:
-```bash
-# Update the filesystem that docker daemon will use before starting on boot
-echo '/var/lib/docker.fs /var/lib/docker auto loop 0 0' >> /etc/fstab
-```
+	```bash
+	# Update the filesystem that docker daemon will use before starting on boot
+	echo '/var/lib/docker.fs /var/lib/docker auto loop 0 0' >> /etc/fstab
+	```
 
 #### Writable file-system
 - The last phase during this init process is to create the `docker.fs` file which will handle docker-daemon operations
 - In order to achive this we will create a `sparse file`: `docker.fs`
-> Sparse file is a type of file that efficiently uses disk space by only allocating storage for the parts of the file that contain non-zero data. The regions of the file that contain zero bytes do not consume any physical storagfe space on the disk
+	> Sparse file is a type of file that efficiently uses disk space by only allocating storage for the parts of the file that contain non-zero data. The regions of the file that contain zero bytes do not consume any physical storagfe space on the disk
 
 	```bash
 	root@on-debian:/online-live# mkdir -p config/includes.chroot_after_packages/var/lib/
@@ -80,15 +79,16 @@ echo '/var/lib/docker.fs /var/lib/docker auto loop 0 0' >> /etc/fstab
 	Filesystem UUID: 24b7b5d0-e70e-467a-b59f-9661604df6e7
 	Superblock backups stored on blocks:
 	8193, 24577, 40961, 57345, 73729
-
+	
 	Allocating group tables: done
 	Writing inode tables: done
 	Creating journal (4096 blocks): done
 	Writing superblocks and filesystem accounting information: done
 	```
 
-	>To determine the desired docker.fs size execute `ls -ls /var/lib/docker` on the livecd when done updating docker content.
-`-s` flag gives us the actually used space and the allocated 
+	>To determine the desired `docker.fs` size execute `ls -ls /var/lib/docker` on the livecd when done updating docker content.
+`-s` flag gives us the actually used space and the allocated
+ 
 	```bash
 	root@on-debian:/online-live# ls -ls config/includes.chroot_after_packages/var/lib/docker.fs 
 	4488 -rw-r--r-- 1 root root 157286401 Jun  2 14:13 config/includes.chroot_after_packages/var/lib/docker.fs
@@ -116,35 +116,33 @@ Let's build the live-cd in order to power it up and start using Docker!
 
 #### Interactive shell
 - `live-build` gives us the ability to enter the live environment during the build process executed with `auto/build`
->In order to enable it we simply update `auto/config` with the flag `--interactive true` before we start the build.
+	>In order to enable it we simply update `auto/config` with the flag `--interactive true` before we start the build.
 
- - In order to overwrite the out-dated config in `config/` run it again (`auto/config`) before you proceed with the build stage.
- 
- >Also notice that `cache/bootstrap` is existed to short the build time
- 
-	```bash
-	root@on-debian:/online-live# auto/clean
-	root@on-debian:/online-live# auto/config
-	root@on-debian:/online-live# auto/build
-	...
-	...
-	[2222-00-11 11:22:33] lb chroot_hacks 
-	P: Begin executing hacks...
-	update-initramfs: Generating /boot/initrd.img-6.1.0-21-amd64
-	live-boot: core filesystems dm-verity devices utils udev blockdev dns.
-	[2222-00-11 11:22:33] lb chroot_interactive 
-	P: Begin interactive build...
-	P: Pausing build: starting interactive shell...
-	cat /etc/docker/daemon.json
-	{
-	  "storage-driver": "overlay2"
-	}
-	exit
-	[2222-00-11 11:22:33] lb chroot_prep remove all mode-archives-chroot
-	[2222-00-11 11:22:33] lb chroot_archives chroot remove
+- In order to overwrite the out-dated config in `config/` run it again (`auto/config`) before you proceed with the build stage.
+	>Also notice that `cache/bootstrap` is existed to short the build time 
+```bash
+root@on-debian:/online-live# auto/clean
+root@on-debian:/online-live# auto/config
+root@on-debian:/online-live# auto/build
 ...
 ...
-	```
+[2222-00-11 11:22:33] lb chroot_hacks 
+P: Begin executing hacks...
+update-initramfs: Generating /boot/initrd.img-6.1.0-21-amd64
+live-boot: core filesystems dm-verity devices utils udev blockdev dns.
+[2222-00-11 11:22:33] lb chroot_interactive 
+P: Begin interactive build...
+P: Pausing build: starting interactive shell...
+cat /etc/docker/daemon.json
+{
+  "storage-driver": "overlay2"
+}
+exit
+[2222-00-11 11:22:33] lb chroot_prep remove all mode-archives-chroot
+[2222-00-11 11:22:33] lb chroot_archives chroot remove
+...
+...
+```
  - Notice that we cant really update docker with images because `chroot` stage isn't running `systemctl`
 	>You can use this stage to perform live installations with the CLI instead of using the scripts in the `config/` directory as i showed in my example
 
@@ -153,47 +151,48 @@ Let's build the live-cd in order to power it up and start using Docker!
 #### Boot the ISO (Build - V1)
 
 - After the live-cd booted we can check docker-daemon status:
-```bash
-systemctl status docker
-```
+	```bash
+	systemctl status docker
+	```
+ ![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/online/docker_service_running_build_v1.jpg)
 - Assuming no issues ;), Let's pull Dissect image:
-```bash
-root@sos-live-cd:/home/live-cd# docker pull ghcr.io/fox-it/dissect
-```
-- and... We need to solve this in an easy way without spending build time again...
+	```bash
+	root@sos-live-cd:/home/live-cd# docker pull ghcr.io/fox-it/dissect
+	```
+- **But it wont work - so you can practice how to update it while testing your live-cd**
 
 ##### Update `docker.fs` on online live-cd
 - In order to achive this all we need to do is:
-```bash
-# Unmount old docker.fs
-systemctl stop docker
-umount /var/lib/docker
-# Create a sparse file of the specified size
-dd if=/dev/zero of="$dockerfs_path" bs=1 count=1 seek="$size_in_bits"
-mkfs.ext4 "$dockerfs_path"
-# Mount new docker.fs
-mount /var/lib/docker
-systemctl start docker
-```
-  - I've wrapped this with `create_new_fs.sh` and included it with my online environment build-folder (`config/includes.chroot_after_packages/mnt/create_new_fs.sh`)
-  > I think it's simplify the updating phase of `docker.fs`
+	```bash
+	# Unmount old docker.fs
+	systemctl stop docker
+	umount /var/lib/docker
+	# Create a sparse file of the specified size
+	dd if=/dev/zero of="$dockerfs_path" bs=1 count=1 seek="$size_in_bits"
+	mkfs.ext4 "$dockerfs_path"
+	# Mount new docker.fs
+	mount /var/lib/docker
+	systemctl start docker
+	```
+- I've wrapped this with `create_new_fs.sh` and included it with my online environment build-folder (`config/includes.chroot_after_packages/mnt/create_new_fs.sh`)
+	> I think it's simplify the updating phase of `docker.fs`
 - After checking the image size (244Mb), let's add some extra space (~56Mb) which sums up to total 314,572,800 bits
 - Now the pull command will succesfully pull the image
 - Then run it using the following command:
-```bash
-docker run -it --rm -v /mnt:/mnt:ro ghcr.io/fox-it/dissect
-```
->From my experience it's nessecary to run it once before saving the new `docker.fs`
+	```bash
+	docker run -it --rm -v /mnt:/mnt:ro ghcr.io/fox-it/dissect
+	```
+	>From my experience it's nessecary to run it once before saving the new `docker.fs`.
 
 ##### Overwrite old `docker.fs` in `config/` in build-folder
 - before proceeding execute `systemctl stop docker` && `umount /var/lib/docker`.
-- I just open python http-server (`python3 -m http.server -d /var/lib/ 8000`) to transfer the updated `docker.fs` from the booted live-cd into my online environment build-folder.
->You can install it on the live-cd during the development phase - it's just will be deleted on resets if python is not really nessecary for you
+- Run python http-server (`python3 -m http.server -d /var/lib/ 8000`) to transfer the updated `docker.fs` from the booted live-cd into your online environment build-folder.
+	>You can install it on the live-cd during the development phase - it will be deleted on resets if python is not really nessecary for you.
 - Once you've done transferring new `docker.fs`, just overwrite the old one located in `config/includes.chroot_after_packages/var/lib`.
 
 #### Build - V2
 >After checking my self im sure that 2 packages are not cached during build process: `liblzo2-2` and `squashfs-tools`
-- I added it with `for_offline.list.chroot` to make sure you don't miss it
+- I added it with `for_offline.list.chroot` to make sure you don't miss it.
 
 
 - Now we can look at our `config/` directory after we done some changes to handle new docker image installation
