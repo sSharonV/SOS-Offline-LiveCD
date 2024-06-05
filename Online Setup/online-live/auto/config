@@ -14,13 +14,8 @@ CACHE_PACKAGES=true
 USERNAME=live-cd
 HOSTNAME=sos-live-cd
 
-# Network settings
-DRIVE_INTERFACE="eth33"
-MODE="dhcp"
-FORMATTED_IP=":::::$DRIVE_INTERFACE:$MODE"
-
 # Interactive mode (shell or false)
-SHELL=shell
+SHELL=false
 
 # ISO info
 IMAGE_NAME="Online-SOS-livecd"
@@ -29,12 +24,16 @@ ISO_VER="SOS - 0.1 - Build"
 ISO_PUBLISHER="SOS"
 ISO_VOLUME="sos_livecd"
 
-# Example: Static address
+# Network settings
+## DHCP by default
+FORMATTED_IP=""
+
+## Example: Static address
 #DRIVE_INTERFACE="eth33"
 #IP="1.1.1.1"
 #NETMASK="255.255.255.0"
 #GW="1.1.1.254"
-#FORMATTED_IP="$DRIVE_INTERFACE:$IP:$NETMASK:$GW:$HOSTNAME:"
+#FORMATTED_IP="ip=$DRIVE_INTERFACE:$IP:$NETMASK:$GW:$HOSTNAME:"
 
 lb config noauto \
 	--archive-areas "$ARCHIVES" \
@@ -56,7 +55,7 @@ lb config noauto \
 	--bootappend-live "boot=live components quiet splash\
  username=$USERNAME\
  hostname=$HOSTNAME\
- ip=$FORMATTED_IP" \
+ $FORMATTED_IP" \
 	--clean \
 	--color \
 	--debug \
