@@ -9,7 +9,7 @@ This guide will walk you through the process of creating a live cd that enable y
 
 ### Purpose of this page
 - [ ] **Maintaining docker images for the live-cd usage**
-> Limitation running docker on read-only file-system - [Discussion on docker forum](https://forums.docker.com/t/docker-on-a-livecd/136225/18 "Discussion on docker forum")
+	> Limitation running docker on read-only file-system - [Discussion on docker forum](https://forums.docker.com/t/docker-on-a-livecd/136225/18 "Discussion on docker forum")
 - [ ] Examples on how to use `config/` directory for various needs
 
 ### Flow

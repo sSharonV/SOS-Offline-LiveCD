@@ -1,5 +1,5 @@
 
-# Operational LiveCD
+# SOS-Offline-LiveCD
 ------------
 
 ## Intro.
