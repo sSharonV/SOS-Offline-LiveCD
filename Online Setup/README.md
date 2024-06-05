@@ -10,7 +10,11 @@
   	  		- [Update `docker.fs` on online live-cd](#update-dockerfs-on-online-live-cd)
   	    		- [Overwrite old `docker.fs` in `config/` in build-folder](#overwrite-old-dockerfs-in-config-in-build-folder)
   	        - [Build - V2](#build---v2)
-  	        	- []()
+  	        	- [Using cached packages for efficient build stage](#using-cached-packages-for-efficient-build-stage)
+
+- [Summarize](#summarize)
+	- [What's Next?](whats-next)
+ 	- [Relevant files for offline environment](relevant-files-for-offline-environment)
 
 
 # LiveCD Setup - Online environment
@@ -173,7 +177,8 @@ exit
 	```bash
 	root@sos-live-cd:/home/live-cd# docker pull ghcr.io/fox-it/dissect
 	```
-- **But it wont work - so you can practice how to update it while testing your live-cd**
+- **But it won't work - so you can practice how to update it while testing your live-cd**
+ ![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/online/no_space_error_docker.jpg.jpg)
 
 ##### Update `docker.fs` on online live-cd
 - In order to achive this all we need to do is:
@@ -230,30 +235,30 @@ config/
 │   └── live.list.chroot
 ```
 
-##### Using cached packages for online environment build
+##### Using cached packages for efficient build stage
 - In order to not over-use the network bandwith we can use the cached packages from the previous build (Build -V1)
-```bash
-root@on-debian:/online-live# cp -r cache/packages.chroot config/
-root@on-debian:/online-live# cp -r cache/packages.bootstrap config/
-root@on-debian:/online-live# cp -r cache/packages.binary config/
-```
+	```bash
+	root@on-debian:/online-live# cp -r cache/packages.chroot config/
+	root@on-debian:/online-live# cp -r cache/packages.bootstrap config/
+	root@on-debian:/online-live# cp -r cache/packages.binary config/
+	```
 - Clean the cached packages to reduce disk usage
-````bash
-root@on-debian:/online-live# rm -r cache/packages.chroot
-root@on-debian:/online-live# rm -r cache/packages.bootstrap
-root@on-debian:/online-live# rm -r cache/packages.binary
-```
-- Also, we can update `9030-docker-init.hook.chroot` to just `apt install ...`
-```bash
-	# Install the latest version from cached live-build process, run:
-	sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+	````bash
+	root@on-debian:/online-live# rm -r cache/packages.chroot
+	root@on-debian:/online-live# rm -r cache/packages.bootstrap
+	root@on-debian:/online-live# rm -r cache/packages.binary
+	```
 
-	# Update the filesystem that docker daemon will use before starting on boot
-	echo '/var/lib/docker.fs /var/lib/docker auto loop 0 0' >> /etc/fstab
-```
+- Also, we can update `9030-docker-init.hook.chroot` to just `apt install ...` (For offline use)
+	```bash
+		# Install the latest version from cached live-build process, run:
+		sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+		# Update the filesystem that docker daemon will use before starting on boot
+		echo '/var/lib/docker.fs /var/lib/docker auto loop 0 0' >> /etc/fstab
+	```
 
 ## Summarize
-
 ```bash
 config/
 ├── hooks
@@ -275,36 +280,38 @@ config/
 ├── packages.binary (using cached packages from binary stage)
 ├── packages.chroot (using cached packages from chroot+bootstrap stage)
 ```
+
 - You're ready to build it again!
-```bash
+	```bash
 	root@on-debian:/online-live# auto/clean
 	root@on-debian:/online-live# auto/config
 	root@on-debian:/online-live# auto/build
-```
+	```
+
 - And! don't forget to check the `cache/` directory for more cached packages. somehow it still updates between Built V1 and V2.
->This additional copy is important for the later offline environment setup.
-```bash
-root@on-debian:/online-live# cp -r cache/packages.bootstrap/* config/packages.chroot/
-root@on-debian:/online-live# cp -r cache/packages.chroot/* config/packages.chroot/
-root@on-debian:/online-live# cp -r cache/packages.binary/* config/packages.binary/
-root@on-debian:/online-live# rm -r cache/packages.chroot
-root@on-debian:/online-live# rm -r cache/packages.binary
-root@on-debian:/online-live# rm -r cache/packages.bootstrap
-```
+	>This additional copy is important for the later offline environment setup.
+	```bash
+	root@on-debian:/online-live# cp -r cache/packages.bootstrap/* config/packages.chroot/
+	root@on-debian:/online-live# cp -r cache/packages.chroot/* config/packages.chroot/
+	root@on-debian:/online-live# cp -r cache/packages.binary/* config/packages.binary/
+	root@on-debian:/online-live# rm -r cache/packages.chroot
+	root@on-debian:/online-live# rm -r cache/packages.binary
+	root@on-debian:/online-live# rm -r cache/packages.bootstrap
+	```
 
 ### What's next?
 - Now you know how to make your own customized live-cd that run different tools using docker.
- - You've learned how to supply files and scripts to the build process.
- - You've practiced the different options avaliable by `live-build` to fulfill different needs.
+	- You've learned how to supply files and scripts to the build process.
+	- You've practiced the different options avaliable by `live-build` to fulfill different needs.
  
 - Now, that would be nice to accomplish all this setup in a local environment (aka offline environment) where you could build from scrtach (including bootstrap) without any official mirror.
-  - go to the offline guide :)
+	- go to the offline guide :)
 
 ### Relevant files for offline environment
 Make sure you're transferring the following:
 - cached packages:
-	- [ ] config/packages.binary
-	- [ ] config/packages.chroot
+	- [ ] `config/packages.binary`
+	- [ ] `config/packages.chroot`
 
 - docker initialization files
 	- [ ] `.../etc/docker/daemon.json`
