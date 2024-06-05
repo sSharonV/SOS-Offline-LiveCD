@@ -178,7 +178,7 @@ exit
 	root@sos-live-cd:/home/live-cd# docker pull ghcr.io/fox-it/dissect
 	```
 - **But it won't work - so you can practice how to update it while testing your live-cd**
- ![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/online/no_space_error_docker.jpg.jpg)
+ ![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/online/no_space_error_docker.jpg)
 
 ##### Update `docker.fs` on online live-cd
 - In order to achive this all we need to do is:
