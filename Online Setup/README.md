@@ -13,8 +13,8 @@
   	        	- [Using cached packages for efficient build stage](#using-cached-packages-for-efficient-build-stage)
 
 - [Summarize](#summarize)
-	- [What's Next?](whats-next)
- 	- [Relevant files for offline environment](relevant-files-for-offline-environment)
+	- [What's Next?](#whats-next)
+ 	- [Relevant files for offline environment](#relevant-files-for-offline-environment)
 
 
 # LiveCD Setup - Online environment
@@ -172,13 +172,13 @@ exit
 	```bash
 	systemctl status docker
 	```
- ![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/online/docker_service_running_build_v1.jpg)
+	 ![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/online/docker_service_running_build_v1.jpg)
 - Assuming no issues ;), Let's pull Dissect image:
 	```bash
 	root@sos-live-cd:/home/live-cd# docker pull ghcr.io/fox-it/dissect
 	```
 - **But it won't work - so you can practice how to update it while testing your live-cd**
- ![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/online/no_space_error_docker.jpg)
+	![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/online/no_space_error_docker.jpg)
 
 ##### Update `docker.fs` on online live-cd
 - In order to achive this all we need to do is:
@@ -197,11 +197,15 @@ exit
 	> I think it's simplify the updating phase of `docker.fs`
 - After checking the image size (244Mb), let's add some extra space (~56Mb) which sums up to total 314,572,800 bits
 - Now the pull command will succesfully pull the image
+	![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/online/sucess_dissect_pull.jpg)
+
 - Then run it using the following command:
 	```bash
 	docker run -it --rm -v /mnt:/mnt:ro ghcr.io/fox-it/dissect
 	```
 	>From my experience it's nessecary to run it once before saving the new `docker.fs`.
+ 
+	![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/online/usable_dissect.jpg)
 
 ##### Overwrite old `docker.fs` in `config/` in build-folder
 - before proceeding execute `systemctl stop docker` && `umount /var/lib/docker`.
@@ -212,7 +216,6 @@ exit
 #### Build - V2
 >After checking my self im sure that 2 packages are not cached during build process: `liblzo2-2` and `squashfs-tools`
 - I added it with `for_offline.list.chroot` to make sure you don't miss it.
-
 
 - Now we can look at our `config/` directory after we done some changes to handle new docker image installation
 ```bash
@@ -251,13 +254,13 @@ config/
 
 - Also, we can update `9030-docker-init.hook.chroot` to just `apt install ...` (For offline use)
 	```bash
-		# Install the latest version from cached live-build process, run:
-		sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+	# Install the latest version from cached live-build process, run:
+	sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-		# Update the filesystem that docker daemon will use before starting on boot
-		echo '/var/lib/docker.fs /var/lib/docker auto loop 0 0' >> /etc/fstab
+	# Update the filesystem that docker daemon will use before starting on boot
+	echo '/var/lib/docker.fs /var/lib/docker auto loop 0 0' >> /etc/fstab
 	```
-
+ 
 ## Summarize
 ```bash
 config/
@@ -287,6 +290,8 @@ config/
 	root@on-debian:/online-live# auto/config
 	root@on-debian:/online-live# auto/build
 	```
+- Here you can see that the live-cd booted with Dissect image included
+![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/online/build%20-%20v2%20with%20new%20image.jpg)
 
 - And! don't forget to check the `cache/` directory for more cached packages. somehow it still updates between Built V1 and V2.
 	>This additional copy is important for the later offline environment setup.
