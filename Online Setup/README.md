@@ -14,8 +14,8 @@ This guide will walk you through the process of creating a live cd that enable y
 
 ### Flow
 1. Understand how to build our first customized live-cd
-  - [x] live-cd with installed docker packages
-  - [x] docker daemon that's operate under the the read-only limitation
+	- [x] live-cd with installed docker packages
+	- [x] docker daemon that's operate under the the read-only limitation
 2. Demonstration how to update docker images that are shipped with you customized live-cd
 
 ------------
@@ -23,27 +23,27 @@ This guide will walk you through the process of creating a live cd that enable y
 ## Let's start
 ### Docker installation - live-cd edition
 #### Getting docker packages
-  - According to the [official installation guide](https://docs.docker.com/engine/install/debian/ "official installation guide") we need to execute the following:
-  ```bash
- # Add Docker's official GPG key:
-sudo apt-get update
-sudo apt-get install ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
+	- According to the [official installation guide](https://docs.docker.com/engine/install/debian/ "official installation guide") we need to execute the following:
+		```bash
+		# Add Docker's official GPG key:
+		sudo apt-get update
+		sudo apt-get install ca-certificates curl
+		sudo install -m 0755 -d /etc/apt/keyrings
+		sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+		sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-	# Add the repository to Apt sources:
-	echo \
-	  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-	  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-	  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-	sudo apt-get update
-	
-	# To install the latest version, run:
-	sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-  ```
-  - I'll wrap it in a script (docker_install.sh) and copy it to `config/hooks/live/9030-docker-init.hook.chroot`.
-    >rename the script to correspond to the latest script executed during live system build
+		# Add the repository to Apt sources:
+		echo \
+		  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+		  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+		  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+		sudo apt-get update
+
+		# To install the latest version, run:
+		sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+		```
+	- I'll wrap it in a script (docker_install.sh) and copy it to `config/hooks/live/9030-docker-init.hook.chroot`.
+		>rename the script to correspond to the latest script executed during live system build
 
 #### Docker daemon initialization
 
