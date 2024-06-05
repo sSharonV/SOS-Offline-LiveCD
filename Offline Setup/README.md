@@ -116,8 +116,8 @@ This guide will walk you through the process of creating a live-cd that can be c
 		--bootappend-live "boot=live components quiet splash\
 	 username=$USERNAME\
 	 hostname=$HOSTNAME\
-	 ip=$FORMATTED_IP" \
-			"${@}"
+	 $FORMATTED_IP" \
+		"${@}"
 	```
 
 #### `auto/config` offline edition
