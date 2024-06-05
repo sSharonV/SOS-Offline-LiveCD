@@ -55,13 +55,13 @@ lb config noauto \
 	--parent-mirror-binary "$MIRROR_URL" \
 	--parent-mirror-bootstrap "$MIRROR_BOOTSTRAP" \
 	--parent-mirror-chroot "$MIRROR_URL" \
-	--bootloader "$BOOTLOADER" \
 	--apt-secure false \
 	--cache-packages false \
 	--security false \
 	--updates false \
 	--firmware-chroot false \
 	--firmware-binary false \
+	--bootloader "$BOOTLOADER" \
 	--image-name $IMAGE_NAME \
 	--iso-application $ISO_APP \
 	--iso-preparer $ISO_VER \

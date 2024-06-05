@@ -14,6 +14,11 @@ CACHE_PACKAGES=true
 USERNAME=live-cd
 HOSTNAME=sos-live-cd
 
+# Network settings
+DRIVE_INTERFACE="eth33"
+MODE="dhcp"
+FORMATTED_IP=":::::$DRIVE_INTERFACE:$MODE"
+
 # Interactive mode (shell or false)
 SHELL=shell
 
@@ -24,12 +29,7 @@ ISO_VER="SOS - 0.1 - Build"
 ISO_PUBLISHER="SOS"
 ISO_VOLUME="sos_livecd"
 
-# Network settings
-DRIVE_INTERFACE="eth33"
-MODE="dhcp"
-FORMATTED_IP=":::::$DRIVE_INTERFACE:$MODE"
-
-## Example: Static address
+# Example: Static address
 #DRIVE_INTERFACE="eth33"
 #IP="1.1.1.1"
 #NETMASK="255.255.255.0"
@@ -40,11 +40,11 @@ lb config noauto \
 	--archive-areas "$ARCHIVES" \
 	--parent-archive-areas "$ARCHIVES" \
 	--distribution "$DISTRO" \
-	--distribution-binary "$DISTRO" \
-	--distribution-chroot "$DISTRO" \
-	--parent-distribution "$DISTRO" \
-	--parent-distribution-binary "$DISTRO" \
-	--parent-distribution-chroot "$DISTRO" \
+	--distribution-binary "$DISTRO"  \
+	--distribution-chroot "$DISTRO"  \
+	--parent-distribution "$DISTRO"  \
+	--parent-distribution-binary "$DISTRO"  \
+	--parent-distribution-chroot "$DISTRO"  \
 	--bootloader "$BOOTLOADER" \
 	--image-name $IMAGE_NAME \
 	--iso-application $ISO_APP \
