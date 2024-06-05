@@ -24,6 +24,7 @@ This guide will walk you through the process of creating a live cd that enable y
 ### Docker installation - live-cd edition
 #### Getting docker packages
 	- According to the [official installation guide](https://docs.docker.com/engine/install/debian/ "official installation guide") we need to execute the following:
+
 		```bash
 		# Add Docker's official GPG key:
 		sudo apt-get update
@@ -42,6 +43,7 @@ This guide will walk you through the process of creating a live cd that enable y
 		# To install the latest version, run:
 		sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 		```
+
 	- I'll wrap it in a script (docker_install.sh) and copy it to `config/hooks/live/9030-docker-init.hook.chroot`.
 		>rename the script to correspond to the latest script executed during live system build
 
