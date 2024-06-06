@@ -9,8 +9,10 @@
             		- [Interface configuration](#interface-configuration)
               		- [Just before you build - Docker setup](#just-before-you-build---docker-setup)
 		- [Build-folder directory](#build-folder-directory)
-  - [Additional customization ideas](#additional-customization-ideas)
-  	- [Boot menu customization](#boot-menu-customization)
+- [Additional customization ideas](#additional-customization-ideas)
+	- [Implemented customization](#implemented-customization)
+		- [Bootloader custom menu](#bootloader-custom-menu)
+		- [Custom motd (Message of the Day)](#custom-motd-message-of-the-day)
 		
 # LiveCD Setup - Offline environment
 ------------
@@ -209,7 +211,7 @@ local_debian_mirror/
 ### Implemented customization
 - I managed to implement those changes after I was done with the configuration changes (`auto/config`)
 	> It should override changes of `auto/config` because it's hardcoded and pasted in the binary stage of the build process
-#### `config/bootloaders`
+#### Bootloader custom menu
 >I'll review customization for `grub-pc` bootloader - but other bootloaders are supported also (`lb config -h | grep bootloaders`)
 
 - Change the following to:
@@ -225,7 +227,7 @@ local_debian_mirror/
 	│       └── splash.png
 	```
 
-#### `config/includes.after_packages/etc/update-motd.d/`
+#### Custom motd (Message of the Day)
 - To change the Message of the Day that shown when logging-in the live-system you can add a script that generates the message you desire to show the user.
 	- Copy it to `config/includes.chroot_after_packages/etc/update-motd.d/`
  - To make this change take place when you boot the live-cd make sure that you copied:
