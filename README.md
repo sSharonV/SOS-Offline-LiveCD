@@ -7,6 +7,7 @@
 - [TL:DR - How to start using this repo](#tldr---how-to-start-using-this-repo)
 	- [Online Environment](#online-environment)
  	- [Offline Environment](#offline-environment)
+  	- [More Customizations](#more-customizations)
 - [Stages of iso](#stages-of-iso)
 - [`live-config`](#live-config)
 	- [Default behaviors](#default-behaviors)
@@ -92,7 +93,7 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
  	
 ## TL:DR - How to start using this repo
 ### Online Environment
-1. Use `Online Setup/online-live` as build-folder
+1. Use [`Online Setup/online-live`](https://github.com/sSharonV/SOS-Offline-LiveCD/tree/main/Online%20Setup/online-live) as build-folder
 2. `auto/config` to use default settings that I recommend for first-time users
 3. `auto/build` to build the live-cd
 4. Transfer `cache/packages.*` (bootstrap\chroot\binary) to your offline environment
@@ -101,7 +102,7 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
    - Refer to [Update `docker.fs` on online-livecd](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/Online%20Setup/README.md#update-dockerfs-on-online-live-cd) to see how to solve it
 
 ### Offline Environment
-1. Use `Offline Setup/offline-live` as build-folder
+1. Use [`Offline Setup/offline-live`](https://github.com/sSharonV/SOS-Offline-LiveCD/tree/main/Offline%20Setup/offline-live) as build-folder
 2. Use `Offline Setup/local_debian_mirror` as local_repo
    	- **Repo setup:**
 		- [x] Execute `repo_setup.sh` to initialize the repo directory.
@@ -115,7 +116,10 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
 3. `auto/config` to use default settings that I recommend for first-time users and works with our local non-official Debian mirror
 4. `auto/build` to build the live-cd
   
-
+### More Customizations
+1. add [`More Customization/`](https://github.com/sSharonV/SOS-Offline-LiveCD/tree/main/More%20Customizations) content (bootloader menu & custom motd) to your `build-folder/config`
+2. (If not performed -> `auto/config`)
+3. `auto/build`
 
 ## Stages of iso
 
@@ -133,35 +137,66 @@ Let's go through the changes that occur in ***build-folder***
 	#!/bin/sh
 
 	set -e
-
-	DEFAULT_ARCHIVES="main non-free-firmware"
-	DEFAULT_DISTRO="bookworm"
-	DEFAULT_BOOTLOADER="grub-pc"
-	DEFAULT_USERNAME="live-cd"
-	DEFAULT_HOSTNAME="sos-live-cd"
-
+	
+	# Any option is described with `lb config -h`
+	
+	# Necessary for build process
+	ARCHIVES="main non-free-firmware"
+	DISTRO=bookworm
+	BOOTLOADER=grub-pc
+	CACHE_PACKAGES=false
+	
+	# General info
+	USERNAME=live-cd
+	HOSTNAME=sos-live-cd
+	
+	# Interactive mode (shell or false)
+	SHELL=false
+	
+	# ISO info
+	IMAGE_NAME="Online-SOS-livecd"
+	ISO_APP="Online-SOS LiveCD"
+	ISO_VER="SOS - 0.1 - Build"
+	ISO_PUBLISHER="SOS"
+	ISO_VOLUME="sos_livecd"
+	
+	# Network settings
+	## DHCP by default
+	FORMATTED_IP=""
+	
+	## Example: Static address
+	#DRIVE_INTERFACE="eth33"
+	#IP="1.1.1.1"
+	#NETMASK="255.255.255.0"
+	#GW="1.1.1.254"
+	#FORMATTED_IP="ip=$DRIVE_INTERFACE:$IP:$NETMASK:$GW:$HOSTNAME:"
+	
 	lb config noauto \
-		--archive-areas $ARCHIVES \
-		--parent-archive-areas $ARCHIVES \
-		--distribution $DISTRO \
-		--distribution-binary $DISTRO  \
-		--distribution-chroot $DISTRO  \
-		--parent-distribution $DISTRO  \
-		--parent-distribution-binary $DISTRO  \
-		--parent-distribution-chroot $DISTRO  \
-		--debian-installer-distribution $DISTRO  \
-		--bootloader $BOOTLOADER \
-		--image-name Online-SOS-livecd \
-		--iso-application "Online-SOS LiveCD" \
-		--iso-preparer "SOS - 0.1 Build" \
-		--iso-publisher "SOS" \
-		--iso-volume "sos_livecd" \
-		--interactive false \
+		--archive-areas "$ARCHIVES" \
+		--parent-archive-areas "$ARCHIVES" \
+		--distribution "$DISTRO" \
+		--distribution-binary "$DISTRO"  \
+		--distribution-chroot "$DISTRO"  \
+		--parent-distribution "$DISTRO"  \
+		--parent-distribution-binary "$DISTRO"  \
+		--parent-distribution-chroot "$DISTRO"  \
+		--bootloader "$BOOTLOADER" \
+		--image-name $IMAGE_NAME \
+		--iso-application $ISO_APP \
+		--iso-preparer $ISO_VER \
+		--iso-publisher $ISO_PUBLISHER \
+		--iso-volume $ISO_VOLUME \
+		--interactive $SHELL \
+		--cache-packages $CACHE_PACKAGES \
 		--bootappend-live "boot=live components quiet splash\
-	 username=$DEFAULT_USERNAME\
-	 hostname=$DEFAULT_HOSTNAME\
-	 ip=$FORMATTED_STRING" \
+	 username=$USERNAME\
+	 hostname=$HOSTNAME\
+	 $FORMATTED_IP" \
+		--color \
+		--debug \
+		--verbose \
 		"${@}"
+
 	```
 2. Execute `auto/config`
 	```bash
@@ -178,7 +213,7 @@ Let's go through the changes that occur in ***build-folder***
 	P: Symlinking hooks...
 	```
 	It will output the following tree inside build-folder
-	>This output is relevant for the default config example copied from live-build so you can see how the default config directory looks.
+	>This output is relevant for the default config example copied from live-build. You can see how the default config directory looks.
 	Later we will build with the '`--clean`' flag which removes empty directories from the final build-folder
 	```bash
 	root@debian:/build-folder# tree -L 3 --dirsfirst
