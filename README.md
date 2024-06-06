@@ -33,7 +33,8 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
 - [x] Scan files on the system
 
 >>### The problem
-- [ ] Lack of examples on the internet (As far as my research :) )
+- [ ] Lack of examples and description on the internet (As far as my research :) )
+	- You're welcome to checkout the official [Debian Live Manual](https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html) yourself
 - [ ] No explanation on how to:
 	- maintain offline changes
 	- setting up a local repo for the bootstrap stage of the live-cd
