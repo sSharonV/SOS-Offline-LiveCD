@@ -310,7 +310,7 @@ then, finally, you can try to boot your default live-cd in your favorite environ
 - ### Default iso example:
 	- Boot  
 		![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main/boot_default.jpg)
-	- Login
+	- Login  
 		![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main/login_default.jpg)
 	
 ## Contributing
