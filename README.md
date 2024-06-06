@@ -97,6 +97,9 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
 3. `auto/build` to build the live-cd
 4. Transfer `cache/packages.*` (bootstrap\chroot\binary) to your offline environment
 
+   - Docker service will probably not work at first use because the file-system mounted for it is 1Mb
+   - Refer to [Update `docker.fs` on online-livecd](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/Online%20Setup/README.md#update-dockerfs-on-online-live-cd) to see how to solve it
+
 ### Offline Environment
 1. Use `Offline Setup/offline-live` as build-folder
 2. Use `Offline Setup/local_debian_mirror` as local_repo
