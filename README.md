@@ -1,3 +1,6 @@
+# SOS-Offline-LiveCD - from Zero to ISO!
+------------
+
 - [Flow](#flow)
 	- [Overview](#overview)
  	- [Requirements](#requirements)
@@ -21,7 +24,6 @@
 - [`live-build`](#live-build)
 	- [Default iso example](#default-iso-example)
 
-# SOS-Offline-LiveCD
 ------------
 
 ## Intro.
