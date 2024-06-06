@@ -2,6 +2,35 @@
 
 LOCAL_MIRROR_FOLDER="local_debian_mirror"
 
+# Directory containing the .deb files
+DEB_DIR="dists/bookworm/main/binary-amd64"
+
+# Output directory for the repository
+REPO_DIR="$DEB_DIR/../.."
+
+rename_process() {
+	# Loop through files in the directory
+	for FILE in "$DEB_DIR"/*; do
+	    # Check if the file name contains "%"
+	    if echo "$FILE" | grep -q "%"; then
+		# Create new file name by replacing "%" with "."
+		NEW_FILE=$(echo "$FILE" | sed 's/%/./g')
+		
+		# Rename the file
+		mv "$FILE" "$NEW_FILE"
+		
+		# Check if the rename was successful
+		if [ $? -eq 0 ]; then
+		    echo "Renamed '$FILE' to '$NEW_FILE'"
+		else
+		    echo "Failed to rename '$FILE'"
+		fi
+	    fi
+	done
+
+	echo "Renaming process completed."
+}
+
 # This script needs to run from LOCAL_MIRROR_FOLDER
 check_directory() {
 	CUR_DIR=$PWD
@@ -17,14 +46,14 @@ check_directory() {
 }
 
 handle_metadata() {
- if [ -f "${PWD}/dists/bookworm/main/binary-amd64/Packages" ]; then
+ if [ -f "$PWD/dists/bookworm/main/binary-amd64/Packages" ]; then
     echo "Removing existing Packages file..."
-    rm "${PWD}/dists/bookworm/main/binary-amd64/Packages"
+    rm "$PWD/dists/bookworm/main/binary-amd64/Packages"
   fi
 
-  if [ -f "${PWD}/dists/bookworm/Release" ]; then
+  if [ -f "$PWD/dists/bookworm/Release" ]; then
     echo "Removing existing Release file..."
-    rm "${PWD}/dists/bookworm/Release"
+    rm "$PWD/dists/bookworm/Release"
   fi
 }
 
@@ -39,13 +68,9 @@ repo_setup() {
 	# Pause the script to allow the user to copy .deb packages
 	echo "Please copy your .deb packages to the binary-amd64 folder and press Enter to continue."
 	read unused variable	
-		
-	# Directory containing the .deb files
-	DEB_DIR="dists/bookworm/main/binary-amd64"
 
-	# Output directory for the repository
-	REPO_DIR="$DEB_DIR/../.."
-		
+	# Some tweaks to make it work for us	
+	rename_process
 	handle_metadata
 
 	# Generate Packages file
