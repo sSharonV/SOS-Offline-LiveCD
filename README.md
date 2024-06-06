@@ -308,12 +308,10 @@ root@debian:/build-folder# tree -L 1 --dirsfirst
 then, finally, you can try to boot your default live-cd in your favorite environment!
 
 - ### Default iso example:
-- Boot
-  
-![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main/boot_default.jpg)
-- Login
-  
-![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main/login_default.jpg)
+	- Boot  
+		![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main/boot_default.jpg)
+	- Login
+		![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main/login_default.jpg)
 	
 ## Contributing
 
