@@ -95,24 +95,25 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
  	
 ## TL:DR - How to start using this repo
 ### Online Environment
-1. Use [`Online Setup/online-live`](https://github.com/sSharonV/SOS-Offline-LiveCD/tree/main/Online%20Setup/online-live) as build-folder
+1. Use [`Online-Setup/online-live`](https://github.com/sSharonV/SOS-Offline-LiveCD/tree/main/Online%20Setup/online-live) as build-folder
 2. `auto/config` to use default settings that I recommend for first-time users
 	- Keep in mind that due to github limitation, `docker.fs` is 1Mb
  		- Docker service will probably not work at first use because the file-system mounted for it is 1Mb
  	- To start the build with Dissect container image allocate it with 300Mb
-  	- Refer to [Update `docker.fs` on online-livecd](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/Online%20Setup/README.md#update-dockerfs-on-online-live-cd) for more info.
 		```bash
 		dd if=/dev/zero of=<PATH TO DOCKER.FS> bs=1 count=1 seek=314572800 # 300Mb
-   		mkfs.ext4 <PATH TO DOCKER.FS>
-   		```
+		mkfs.ext4 <PATH TO DOCKER.FS>
+		```
 4. `auto/build` to build the live-cd
 	- You can take a break for about 15 minutes (the first time usually takes some time)
-5. Transfer `cache/packages.*` (bootstrap\chroot\binary) to your offline environment
-6. Transfer `docker.fs` from booted live-cd 
+5. Boot the image in your favorite environment (VMware, QUEMO, etc...) to pull a desired docker image.
+	- Refer to [Update `docker.fs` on online-livecd](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/Online%20Setup/README.md#update-dockerfs-on-online-live-cd) for more info.
+6. Transfer `cache/packages.*` (bootstrap\chroot\binary) to your offline environment
+7. Transfer `docker.fs` from booted live-cd 
    
 
 ### Offline Environment
-1. Use [`Offline Setup/offline-live`](https://github.com/sSharonV/SOS-Offline-LiveCD/tree/main/Offline%20Setup/offline-live) as build-folder
+1. Use [`Offline-Setup/offline-live`](https://github.com/sSharonV/SOS-Offline-LiveCD/tree/main/Offline%20Setup/offline-live) as build-folder
 2. Use `Offline Setup/local_debian_mirror` as local_repo
    	- **Repo setup:**
 		- [x] Execute `repo_setup.sh` to initialize the repo directory.
@@ -121,15 +122,18 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
 			```bash
 			cp {online-folder}/cache/packages.*/* {offline-folder}/local_debian_mirror/dists/bookworm/main/binary-amd64
 		 	```
-   			> make sure you're not creating sub
+   			> `binary-amd64` consists of all *.deb packages (without sub-directories)
    	- **Start local repo:**
-  		- [x] Start local python http.server (`python3 -m http.server 8000)
-3. `auto/config` to use default settings that I recommend for first-time users and works with our local non-official Debian mirror
+  		- [x] Start local python http.server (`python3 -m http.server 8000`)
+3. Use `Offline-Setup/offline-live/auto/config` to use the default settings that I recommend for first-time users and works with our local non-official Debian mirror
+	- Notice 2 things before you start build:
+ 		- Update `LOCAL_MIRROR_IP` in `auto/config` to the desired one.
+		- Remember to copy the updated `docker.fs`.
 4. `auto/build` to build the live-cd
   
 ### More Customizations
 1. add [`More Customization/`](https://github.com/sSharonV/SOS-Offline-LiveCD/tree/main/More%20Customizations) content (bootloader menu & custom motd) to your `build-folder/config`
-2. (If not performed -> `auto/config`)
+	- Make sure you add it to `config/`. if you skipped this stage please perform two previous stages (Online/Offline Environment)
 3. `auto/build`
 
 ## Stages of iso
