@@ -9,6 +9,8 @@
             		- [Interface configuration](#interface-configuration)
               		- [Just before you build - Docker setup](#just-before-you-build---docker-setup)
 		- [Build-folder directory](#build-folder-directory)
+  - [Additional customization ideas](#additional-customization-ideas)
+  	- [Boot menu customization](#boot-menu-customization)
 		
 # LiveCD Setup - Offline environment
 ------------
@@ -188,3 +190,18 @@ local_debian_mirror/
 └── repo_setup.sh
 ```
 - Feel comfortable to run `auto/build`!
+
+------------
+## Additional customization ideas
+- You'r able to give your own configurations for different stages of the build
+	> I'll review boot menu customization
+  
+	You can take this to wherever you need
+	> 	- **Files can exist on the live system and on the binary iso**
+
+- `sources.list` work with `config/archive`
+- GPG keys with `config/apt`
+- Installer automations with `config/preseed`
+- Installer customization with `config/debian-installer`
+
+### Boot menu customization
