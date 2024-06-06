@@ -196,6 +196,7 @@ local_debian_mirror/
 - Feel comfortable to run `auto/build`!
 
 - And Finally:
+
 	![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/offline/offline-ip-dissect-run.jpg)
 
 ------------
@@ -215,9 +216,10 @@ local_debian_mirror/
 - I managed to implement those changes after I was done with the configuration changes (`auto/config`)
 	> It should override changes of `auto/config` because it's hardcoded and pasted in the binary stage of the build process
 
-	> - Boot will look like the picture on top of this page.
- 	> - Login will prompt the next:
-		![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/offline/offline-after-login.jpg)
+	- Boot will look like the picture on top of this page.
+ 	- Login will prompt the next:
+		
+  		![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/offline/offline-after-login.jpg)
 #### Bootloader custom menu
 >I'll review customization for `grub-pc` bootloader - but other bootloaders are supported also (`lb config -h | grep bootloaders`)
 
