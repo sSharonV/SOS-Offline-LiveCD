@@ -103,9 +103,10 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
   	- Refer to [Update `docker.fs` on online-livecd](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/Online%20Setup/README.md#update-dockerfs-on-online-live-cd) for more info.
 		```bash
 		dd if=/dev/zero of=<PATH TO DOCKER.FS> bs=1 count=1 seek=314572800 # 300Mb
-   		mkfs.ext4 "<PATH TO DOCKER.FS>"
+   		mkfs.ext4 <PATH TO DOCKER.FS>
    		```
 4. `auto/build` to build the live-cd
+	- You can take a break for about 15 minutes (the first time usually takes some time)
 5. Transfer `cache/packages.*` (bootstrap\chroot\binary) to your offline environment
 6. Transfer `docker.fs` from booted live-cd 
    
@@ -120,6 +121,7 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
 			```bash
 			cp {online-folder}/cache/packages.*/* {offline-folder}/local_debian_mirror/dists/bookworm/main/binary-amd64
 		 	```
+   			> make sure you're not creating sub
    	- **Start local repo:**
   		- [x] Start local python http.server (`python3 -m http.server 8000)
 3. `auto/config` to use default settings that I recommend for first-time users and works with our local non-official Debian mirror
