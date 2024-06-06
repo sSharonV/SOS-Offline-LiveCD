@@ -1,3 +1,5 @@
+# LiveCD Setup - Online environment
+------------
 - [Let's start](#lets-start)
 	- [Docker installation](#docker-installation---live-cd-edition)
    		- [Getting docker packages](#getting-docker-packages)
@@ -15,11 +17,7 @@
 - [Summarize](#summarize)
 	- [What's Next?](#whats-next)
  	- [Relevant files for offline environment](#relevant-files-for-offline-environment)
-
-
-# LiveCD Setup - Online environment
 ------------
-
 ## Intro.
 This guide will walk you through the process of creating a live cd that enables you to run Dissect with a docker container on LiveCD.
 - [x] [Docker](https://docs.docker.com/ "Docker"): Open-source platform for developing, shipping, and running applications in isolated containers.
