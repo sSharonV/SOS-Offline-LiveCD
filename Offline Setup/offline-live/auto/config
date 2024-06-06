@@ -25,7 +25,7 @@ ISO_PUBLISHER="SOS"
 ISO_VOLUME="off_sos_livecd"
 
 # Network settings
-DRIVE_INTERFACE="eth33"
+DRIVE_INTERFACE="ens33"
 IP="1.1.1.1"
 NETMASK="255.255.255.0"
 GW="1.1.1.254"
