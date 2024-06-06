@@ -17,6 +17,8 @@
 # LiveCD Setup - Offline environment
 ------------
 
+![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/offline/offline-custom-bootmenu.jpg)
+
 ## Intro.
 This guide will walk you through the process of creating a live-cd that can be created and customized with minimal local debian mirror.
 - [x] Local Debian Repository for handling packages source for build time - **including bootstrap stage**.
@@ -194,6 +196,7 @@ local_debian_mirror/
 - Feel comfortable to run `auto/build`!
 
 - And Finally:
+	![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/offline/offline-ip-dissect-run.jpg)
 
 ------------
 ## Additional customization ideas
@@ -211,6 +214,10 @@ local_debian_mirror/
 ### Implemented customization
 - I managed to implement those changes after I was done with the configuration changes (`auto/config`)
 	> It should override changes of `auto/config` because it's hardcoded and pasted in the binary stage of the build process
+
+	> - Boot will look like the picture on top of this page.
+ 	> - Login will prompt the next:
+		![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/offline/offline-after-login.jpg)
 #### Bootloader custom menu
 >I'll review customization for `grub-pc` bootloader - but other bootloaders are supported also (`lb config -h | grep bootloaders`)
 
