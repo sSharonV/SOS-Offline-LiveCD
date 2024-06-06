@@ -20,7 +20,7 @@ DEFINED_SOURCES=$(grep -oP '^deb\s+\K.*' /etc/apt/sources.list)
 
 # Generate MOTD
 echo ""
-echo "SOS-Offline LiveCD is a live-system that you would customize for your own needs."
+echo "SOS-Offline LiveCD is a live-system that you could customize for your own needs."
 echo ""
 echo "General info:"
 echo "- IP Address: ${IP_ADDRESS}"
