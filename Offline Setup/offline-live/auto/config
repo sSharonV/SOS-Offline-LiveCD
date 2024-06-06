@@ -5,7 +5,7 @@ set -e
 # Any option is described with `lb config -h`
 
 # Necessary for build process
-ARCHIVES="main non-free-firmware"
+ARCHIVES="main"
 DISTRO=bookworm
 BOOTLOADER=grub-pc
 CACHE_PACKAGES=false # No need to cache if you run local-repo on your build host
@@ -25,13 +25,13 @@ ISO_PUBLISHER="SOS"
 ISO_VOLUME="off_sos_livecd"
 
 # Network settings
-DRIVE_INTERFACE="ens33"
+DRIVE_INTERFACE="ens33" # Don't change because it's Debian default value
 IP="1.1.1.1"
 NETMASK="255.255.255.0"
 GW="1.1.1.254"
 FORMATTED_IP="ip=$DRIVE_INTERFACE:$IP:$NETMASK:$GW:$HOSTNAME:"
 
-## Example: dhcp
+## Example: DHCP
 #FORMATTED_IP=""
 
 # Local repo info [Defaults to network settings]
