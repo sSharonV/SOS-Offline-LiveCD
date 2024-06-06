@@ -165,7 +165,7 @@ Let's go through the changes that occur in ***build-folder***
 	FORMATTED_IP=""
 	
 	## Example: Static address
-	#DRIVE_INTERFACE="eth33"
+	#DRIVE_INTERFACE="ens33" # don't change because it's Debian default value
 	#IP="1.1.1.1"
 	#NETMASK="255.255.255.0"
 	#GW="1.1.1.254"
