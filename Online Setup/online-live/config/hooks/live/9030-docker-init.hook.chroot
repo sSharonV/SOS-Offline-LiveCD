@@ -7,7 +7,7 @@ USE_CACHED_PACKAGES="no"
 
 # Ask the user if they want to use cached Docker packages
 echo -n "Use cached Docker packages? (yes/no) [default: no]: "
-read USER_INPUT
+#read USER_INPUT
 
 # If the user provides input, use it; otherwise, use the default value
 if [ -n "$USER_INPUT" ]; then
