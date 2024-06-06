@@ -132,7 +132,7 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
 4. `auto/build` to build the live-cd
   
 ### More Customizations
-1. add [`More Customization/`](https://github.com/sSharonV/SOS-Offline-LiveCD/tree/main/More%20Customizations) content (bootloader menu & custom motd) to your `build-folder/config`
+1. Add [`More Customization/`](https://github.com/sSharonV/SOS-Offline-LiveCD/tree/main/More%20Customizations) content (bootloader menu & custom motd) to your `build-folder/config`
 	- Make sure you add it to `config/`. if you skipped this stage please perform two previous stages (Online/Offline Environment)
 3. `auto/build`
 
@@ -142,12 +142,11 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
 
 ## `live-config`
 Let's go through the changes that occur in ***build-folder***
-> I'll focus on different specs relevant for only live-cd, but there are more options for customization even with installation mode for iso
+> I'll focus on different specs relevant for only live-cd, but there are more options for customization (`lb config -h`)
 
 ### Default behaviors
-1. Copy examples and edit to the next suggestion
+1. The `auto/copy` given in my example includes of the next suggestion:
 	```bash
-	root@debian:/build-folder# cp /usr/share/doc/live-build/example/auto ./
 	root@debian:/build-folder# cat auto/config
 	#!/bin/sh
 
