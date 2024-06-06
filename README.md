@@ -1,5 +1,7 @@
 # SOS-Offline-LiveCD - from Zero to ISO!
 ------------
+![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main/LiveCD_GIF.gif)
+------------
 
 - [Flow](#flow)
 	- [Overview](#overview)
