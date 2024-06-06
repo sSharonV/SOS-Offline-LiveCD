@@ -38,8 +38,8 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
 - [x] Scan files on the system
 
 >>### The problem
-- [ ] Lack of examples and description on the internet (As far as my research :) )
-	- You're welcome to checkout the official [Debian Live Manual](https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html) yourself
+- [ ] Lack of examples and descriptions on the internet
+	- You're welcome to check the official [Debian Live Manual](https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html) yourself
 - [ ] No explanation on how to:
 	- maintain offline changes
 	- setting up a local repo for the bootstrap stage of the live-cd
@@ -97,11 +97,18 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
 ### Online Environment
 1. Use [`Online Setup/online-live`](https://github.com/sSharonV/SOS-Offline-LiveCD/tree/main/Online%20Setup/online-live) as build-folder
 2. `auto/config` to use default settings that I recommend for first-time users
-3. `auto/build` to build the live-cd
-4. Transfer `cache/packages.*` (bootstrap\chroot\binary) to your offline environment
-
-   - Docker service will probably not work at first use because the file-system mounted for it is 1Mb
-   - Refer to [Update `docker.fs` on online-livecd](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/Online%20Setup/README.md#update-dockerfs-on-online-live-cd) to see how to solve it
+	- Keep in mind that due to github limitation, `docker.fs` is 1Mb
+ 		- Docker service will probably not work at first use because the file-system mounted for it is 1Mb
+ 	- To start the build with Dissect container image allocate it with 300Mb
+  	- Refer to [Update `docker.fs` on online-livecd](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/Online%20Setup/README.md#update-dockerfs-on-online-live-cd) for more info.
+		```bash
+		dd if=/dev/zero of=<PATH TO DOCKER.FS> bs=1 count=1 seek=314572800 # 300Mb
+   		mkfs.ext4 "<PATH TO DOCKER.FS>"
+   		```
+4. `auto/build` to build the live-cd
+5. Transfer `cache/packages.*` (bootstrap\chroot\binary) to your offline environment
+6. Transfer `docker.fs` from booted live-cd 
+   
 
 ### Offline Environment
 1. Use [`Offline Setup/offline-live`](https://github.com/sSharonV/SOS-Offline-LiveCD/tree/main/Offline%20Setup/offline-live) as build-folder
