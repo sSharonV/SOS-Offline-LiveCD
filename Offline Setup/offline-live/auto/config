@@ -35,8 +35,8 @@ FORMATTED_IP="ip=$DRIVE_INTERFACE:$IP:$NETMASK:$GW:$HOSTNAME:"
 #FORMATTED_IP=""
 
 # Local repo info [Defaults to network settings]
-LOCAL_IP=192.168.183.133 #IP of your offline environment
-MIRROR_BOOTSTRAP="http://$LOCAL_IP:8000"
+LOCAL_MIRROR_IP=192.168.183.133 #IP of your offline environment
+MIRROR_BOOTSTRAP="http://$LOCAL_MIRROR_IP:8000"
 MIRROR_URL="[trusted=yes] $MIRROR_BOOTSTRAP"
 
 lb config noauto \
