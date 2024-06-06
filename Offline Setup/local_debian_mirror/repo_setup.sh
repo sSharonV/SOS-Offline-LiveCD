@@ -49,7 +49,7 @@ repo_setup() {
 	handle_metadata
 
 	# Generate Packages file
-	if ! dpkg-scanpackages "$PWD/$DEB_DIR" /dev/null > "$PWD/$DEB_DIR/Packages"; then
+	if ! dpkg-scanpackages "$DEB_DIR" /dev/null > "$PWD/$DEB_DIR/Packages"; then
 	    echo "Failed to generate Packages file."
 	    exit 1
 	fi
