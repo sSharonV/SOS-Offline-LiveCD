@@ -1,3 +1,25 @@
+- [Flow](#flow)
+	- [Overview](#overview)
+ 	- [Requirements](#requirements)
+- [TL:DR - How to start using this repo](#tldr---how-to-start-using-this-repo)
+	- [Online Environment](#online-environment)
+ 	- [Offline Environment](#offline-environment)
+- [Stages of iso](#stages-of-iso)
+- [`live-config`](#live-config)
+	- [Default behaviors](#default-behaviors)
+ 	- [`auto/`](#auto)
+  		- [`config`](#config)
+    		- [`build`](#build)
+        	- [`clean`](#clean)
+ 	- [`config/`](#auto)
+  		- [`bootloader`](#bootloader)
+    		- [`hooks`](#hooks)
+        	- [`includes.*`](#includes)
+         	- [`packages-list`](#packages-list)
+          	- [`packages.*`](#packages)
+          	- [`binary`, `chroot`, `bootstrap`](#binary-chroot-bootstrap)
+- [`live-build`](#live-build)
+	- [Default iso example](#default-iso-example)
 
 # SOS-Offline-LiveCD
 ------------
@@ -65,12 +87,35 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
 
  	> The value can be found in `/etc/apt/sources.list` or `/etc/apt/source.list.d` of the host
  	
+## TL:DR - How to start using this repo
+### Online Environment
+1. Use `Online Setup/online-live` as build-folder
+2. `auto/config` to use default settings that I recommend for first-time users
+3. `auto/build` to build the live-cd
+4. Transfer `cache/packages.*` (bootstrap\chroot\binary) to your offline environment
+
+### Offline Environment
+1. Use `Offline Setup/offline-live` as build-folder
+2. Use `Offline Setup/local_debian_mirror` as local_repo
+   	- **Repo setup:**
+		- [x] Execute `repo_setup.sh` to initialize the repo directory.
+	 	During the execution, you'll be asked to copy the cached packages to `./dists/bookworm/main/binary-amd64`
+		- [x] Transfer cached packages (from online-build)
+			```bash
+			cp {online-folder}/cache/packages.*/* {offline-folder}/local_debian_mirror/dists/bookworm/main/binary-amd64
+		 	```
+   	- **Start local repo:**
+  		- [x] Start local python http.server (`python3 -m http.server 8000)
+3. `auto/config` to use default settings that I recommend for first-time users and works with our local non-official Debian mirror
+4. `auto/build` to build the live-cd
+  
+
 
 ## Stages of iso
 
 ![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main/build-stages.jpg)
 
-## live-config
+## `live-config`
 Let's go through the changes that occur in ***build-folder***
 > I'll focus on different specs relevant for only live-cd, but there are more options for customization even with installation mode for iso
 
@@ -112,7 +157,7 @@ Let's go through the changes that occur in ***build-folder***
 	 ip=$FORMATTED_STRING" \
 		"${@}"
 	```
-2. Execute auto/config
+2. Execute `auto/config`
 	```bash
 	root@debian:/build-folder# auto/config
 	[2222-00-11 11:22:33] lb config noauto --archive-areas main non-free-firmware --parent-archive-areas main non-free-firmware --distribution bookworm --distribution-binary bookworm --distribution-chroot bookworm --parent-distribution bookworm --parent-distribution-binary bookworm --parent-distribution-chroot bookworm --debian-installer-distribution bookworm --bootloader grub-pc --image-name Online-SOS-livecd --iso-application Online-SOS LiveCD --iso-preparer SOS - 0.1 - Build --iso-publisher SOS --iso-volume sos_livecd --interactive false --debian-installer-gui false --cache false --cache-packages true --clean --color --debug --verbose --bootappend-live boot=live components quiet splash username=live-cd hostname=sos-live-cd
@@ -168,48 +213,48 @@ Let's go through the changes that occur in ***build-folder***
 
 3. Let's understand the differences between them
 
-### auto/
-- #### config
+### `auto/`
+- #### `config`
 	Helps us automate the generation of the files generated in `config/` folder - and makes it possible to manage configuration changes with git.
 	Some of the settings refer to a mirror, distro names, iso, cache etc.
 	>[lb_config](https://manpages.debian.org/jessie/live-build/lb_config.1.en.html "lb_config")
 
-- #### build
+- #### `build`
 	Executes the build process according to the information located in `config/` directory, while saving its log to build.log file.
 	Some of the settings help control the different stages of the build (bootstrap, chroot, binary) to save time while customizing the live-cd.
 	>[lb_build](https://manpages.debian.org/jessie/live-build/lb_build.1.en.html "lb_build")
 
-- #### clean
+- #### `clean`
 	Between the builds, there could be some cached information that might damage the build process, so it's recommended to clean the main directory while testing your desired live-cd build stage.
 	Some of the settings help to control which cached information needs to be deleted.
 	> [lb_clean](https://manpages.debian.org/jessie/live-build/lb_clean.1.en.html "lb_clean")
 
-### config/
-- #### bootloader
+### `config/`
+- #### `bootloader`
 	Controls the files used in boot time (outside the packed file-system) by the bootloader chosen for the live-cd.
 	>[Debian Live Manual - 11.1 - Bootloaders](https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-binary.en.html#617 "Debian Live Manual - 11.1 - Bootloaders")
 
-- #### hooks
+- #### `hooks`
 	Controls execution of customized scripts during different phases of the build process - chroot, binary, and boot.
 	> [Debian Live Manual - 9.2 - Hooks](https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-contents.en.html#515 "Debian Live Manual - 9.2 - Hooks")
 
-- #### includes.*
+- #### `includes.*`
 	Include different files inside different stages of the build process to aid the configurations during the build process or just so something would exist in the result iso image.
 	> [Debian Live Manual - 9.1 - Includes](https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-contents.en.html#499 "Debian Live Manual - 9.1 - Includes")
 
-- #### packages-list
+- #### `packages-list`
 	Additional package installation by supplying a list of packages to install.
 	> [Debian Live Manual - 8.2 - Choosing packages to install](https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-package-installation.en.html#389 "Debian Live Manual - 8.2 - Choosing packages to install")
 
-- #### packages.*
+- #### `packages.*`
 	Includes Debian packages to avoid network traffic when downloading packages during the build process.
 	> [Debian Live Manual - 8.2 - Choosing packages to install](https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-package-installation.en.html#389 "Debian Live Manual - 8.2 - Choosing packages to install")
 
-- #### binary, chroot, bootstrap
+- #### `binary`, `chroot`, `bootstrap`
 	Part of the configurations generated by `lb config` is overridden when executing auto/config (`lb config -h`).
 ------------
 
-## live-build
+## `live-build`
 After you're done configuring your desired live-cd customization you can execute:
 ```bash
 root@debian:/online-live# auto/build
@@ -259,7 +304,7 @@ root@debian:/build-folder# tree -L 1 --dirsfirst
 ```
 then, finally, you can try to boot your default live-cd in your favorite environment!
 
-- ### Default iso looks like:
+- ### Default iso example:
 - Boot
   
 ![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main/boot_default.jpg)
