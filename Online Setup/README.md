@@ -201,7 +201,7 @@ exit
 	```bash
 	docker run -it --rm -v /mnt:/mnt:ro ghcr.io/fox-it/dissect
 	```
-	>From my experience it's necessary to run it once before saving the new `docker.fs`.
+	>From my experience it's necessary to run it once before proceeding with the new `docker.fs`.
  
 	![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/online/usable_dissect.jpg)
 
