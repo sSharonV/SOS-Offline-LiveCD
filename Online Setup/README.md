@@ -19,7 +19,7 @@
  	- [Relevant files for offline environment](#relevant-files-for-offline-environment)
 ------------
 ## Intro.
-This guide will walk you through the process of creating a live cd that enables you to run Dissect with a docker container on LiveCD.
+This guide will walk you through the process of creating a live-cd that enables you to run Dissect with a docker container on LiveCD.
 - [x] [Docker](https://docs.docker.com/ "Docker"): Open-source platform for developing, shipping, and running applications in isolated containers.
 - [x] [Dissect](https://github.com/fox-it/dissect "Dissect"): Open-source DFIR framework and toolset that allows you to quickly access and analyze forensic artifacts from various disk and file formats
 
@@ -60,11 +60,11 @@ This guide will walk you through the process of creating a live cd that enables 
 	```
 
 - I'll wrap it in a script (docker_install.sh) and copy it to `config/hooks/live/9030-docker-init.hook.chroot`.
-	> Rename the script to correspond to the latest script executed during live system build
+	> Rename the script to correspond to the latest script executed during the live system build
 
 #### Docker daemon initialization
 
-- Docker daemon needs to be initialized in a such way the `/var/lib/docker` will be a writable directory for docker-daemon to work properly with device-driver `overlay2` on its startup during the boot process.
+- Docker daemon needs to be initialized in such a way the `/var/lib/docker` will be a writable directory for docker-daemon to work properly with device-driver `overlay2` on its startup during the boot process.
 - To define it we can put `daemon.json` in `config/includes.chroot_after_packages/etc/docker/`:
   ```bash
   {
