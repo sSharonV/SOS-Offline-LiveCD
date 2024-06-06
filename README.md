@@ -40,7 +40,7 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
 	- installing docker service for ease of customization needs
 
 ### Examples?!
-> The examples explored in the sub-directories (online-build & offline-build) show the difference between the configurations and explain the necessary changes to live-config.
+> The examples explored in the sub-directories (Online Setup & Offline Setup) show the difference between the configurations and explain the necessary changes to live-config.
 - Walkthrough to implement your live-cd that can execute Dissect (IR framework) to expand the capabilities you can take anywhere.
 
 - I'll review the additional setups that live-build could help us achieve to satisfy our creative needs:
