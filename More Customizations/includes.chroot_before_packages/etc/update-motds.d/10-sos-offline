@@ -1,8 +1,35 @@
 #!/bin/sh
 
-# Removes the original 'motd' generator script
-rm /etc/update-motd.d/10-uname
-rm /etc/motd
+# Get the IP address of the machine
+IP_ADDRESS=$(hostname -I | awk '{print $1}')
 
-# Makes the script executable for PAM on logins
-chmod +x /etc/update-motd.d/10-sos-offline
+# Get the default gateway
+DEFAULT_GATEWAY=$(ip route | grep default | awk '{print $3}')
+
+# Get the actual and allocated size of /var/lib/docker.fs
+if [ -e /var/lib/docker.fs ]; then
+    ACTUAL_SIZE=$(du -sh /var/lib/docker | awk '{print $1}')
+    ALLOCATED_SIZE=$(ls -lh /var/lib/docker.fs | awk '{print $5}')
+else
+    ACTUAL_SIZE="N/A"
+    ALLOCATED_SIZE="N/A"
+fi
+
+# Get defined sources from sources.list
+DEFINED_SOURCES=$(grep -oP '^deb\s+\K.*' /etc/apt/sources.list)
+
+# Generate MOTD
+echo ""
+echo "SOS-Offline LiveCD is a live-system that you would customize for your own needs."
+echo ""
+echo "General info:"
+echo "- IP Address: ${IP_ADDRESS}"
+echo "- Default Gateway: ${DEFAULT_GATEWAY}"
+echo "- /var/lib/docker actual size: ${ACTUAL_SIZE}"
+echo "- /var/lib/docker.fs allocated size: ${ALLOCATED_SIZE}"
+echo "- Defined Sources:"
+echo "	  -> ${DEFINED_SOURCES}"
+echo ""
+echo "Installed tools for SOS-Offline:"
+echo "	  1. Dissect -> usage: \`sudo sh /mnt/dissect_utils/dissect_run.sh\`"
+echo ""
