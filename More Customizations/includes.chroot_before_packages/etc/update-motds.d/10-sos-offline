@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Removes the original 'motd' generator script
+rm /etc/update-motd.d/10-uname
+rm /etc/motd
+
+# Makes the script executable for PAM on logins
+chmod +x /etc/update-motd.d/10-sos-offline
