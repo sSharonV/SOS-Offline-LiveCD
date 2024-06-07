@@ -216,7 +216,7 @@ local_debian_mirror/
 - I managed to implement those changes after I was done with the configuration changes (`auto/config`)
 	> It should override changes of `auto/config` because it's hardcoded and pasted in the binary stage of the build process
 
-	- Boot will look like the picture on top of this page.
+	The boot will look like the picture on top of this page.
  	- Login will prompt the next:
 		
   		![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/offline/offline-after-login.jpg)
@@ -237,11 +237,11 @@ local_debian_mirror/
 	```
 
 #### Custom motd (Message of the Day)
-- To change the Message of the Day that shown when logging-in the live-system you can add a script that generates the message you desire to show the user.
+- To change the Message of the Day that is shown when logging in to the live-system you can add a script that generates the message you desire to show the user.
 	- Copy it to `config/includes.chroot_after_packages/etc/update-motd.d/`
  - To make this change take place when you boot the live-cd make sure that you copied:
-	- [ ] `9040-rm-orig-motd.hook.chroot` to `/config/hooks/live
+	- [ ] `9040-rm-orig-motd.hook.chroot` to `/config/hooks/live`
  		- This will make sure only one motd script available on boot
-   		- It removes the orig `motd` file in chroot stage
+   		- It removes the original `motd` file in chroot stage
  	- [ ] `10-sos-offline` to `/config/includes.chroot_before_packages/etc/update-motd.d/`
   		- Includes the new `motd` in chroot stage
