@@ -37,6 +37,11 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
 - [x] Retrieve some system\application artifact
 - [x] Scan files on the system
 
+	> Some info about my implementation:
+	- [x] Running [Dissect](https://docs.dissect.tools/en/latest/overview/index.html) with Docker Engine in the live-cd takes about 550Mb when building from scratch
+	- [x] Rebuilding with new configurations for further testing takes only a few minutes (When using the cached stages)
+	- [ ] I've managed not to implement persistent volume but feel free to check it out ([Debian Live Manual - 10.3 - Persistence](https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-run-time-behaviours.en.html#556))
+
 >>### The problem
 - [ ] Lack of examples and descriptions on the internet
 	- You're welcome to check the official [Debian Live Manual](https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html) yourself
@@ -50,7 +55,7 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
 - Walkthrough to implement your live-cd that can execute Dissect (IR framework) to expand the capabilities you can take anywhere.
 
 - I'll review the additional setups that live-build could help us achieve to satisfy our creative needs:
-	- [x] Docker setup that run Dissect docker image.
+	- [x] Docker setup that runs Dissect docker image.
  	- [x] Interactive shell to `chroot` environment during build time.
 	- [x] Adapting cached packages to enable the bootstrap stage in an offline environment.
  	- [x] Boot menu and motd customizations
