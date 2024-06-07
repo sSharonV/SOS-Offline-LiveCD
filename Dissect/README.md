@@ -17,15 +17,15 @@
       pip install acquire yara-python
       ```
   -   Exit from the container (type `exit`) and return to host
-      -  Then execute the following for the docker container's hash first 3 digits (`docker ps -a`)
+      -  Then execute the following for the docker container's id first 3 digits (`docker ps -a`)
   -   Execute the following to commit the container as an image:
       ```bash
-      docker commit <container hash first 3 digits>
+      docker commit <container id first 3 digits>
       ```
-      - Then check for the new image's hash first 3 digits (`docker images`)
+      - Then check for the new image's id first 3 digits (`docker images`)
   -   Now you can tag the image with
       ```bash
-      docker tag <image hash first 3 digits> dissect_acquire
+      docker tag <image id first 3 digits> dissect_acquire
       ```
      
   
