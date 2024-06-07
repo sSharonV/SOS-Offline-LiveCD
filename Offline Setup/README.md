@@ -240,8 +240,8 @@ local_debian_mirror/
 - To change the Message of the Day that shown when logging-in the live-system you can add a script that generates the message you desire to show the user.
 	- Copy it to `config/includes.chroot_after_packages/etc/update-motd.d/`
  - To make this change take place when you boot the live-cd make sure that you copied:
-	- [] `9040-rm-orig-motd.hook.chroot` to `/config/hooks/live
+	- [ ] `9040-rm-orig-motd.hook.chroot` to `/config/hooks/live
  		- This will make sure only one motd script available on boot
    		- It removes the orig `motd` file in chroot stage
- 	- [] `10-sos-offline` to `/config/includes.chroot_before_packages/etc/update-motd.d/`
+ 	- [ ] `10-sos-offline` to `/config/includes.chroot_before_packages/etc/update-motd.d/`
   		- Includes the new `motd` in chroot stage
