@@ -1,7 +1,8 @@
 # SOS-Offline-LiveCD - from Zero to ISO!
-------------
+
+
 ![alt text](https://github.com/sSharonV/SOS-Offline-LiveCD/blob/main/images/main/LiveCD_GIF.gif)
-------------
+
 
 - [Flow](#flow)
 	- [Overview](#overview)
@@ -10,6 +11,7 @@
 	- [Online Environment](#online-environment)
  	- [Offline Environment](#offline-environment)
   	- [More Customizations](#more-customizations)
+  	- [Dissect Setup](#dissect-setup)
 - [Stages of iso](#stages-of-iso)
 - [`live-config`](#live-config)
 	- [Default behaviors](#default-behaviors)
@@ -140,7 +142,10 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
 ### More Customizations
 1. Add [`More Customization/`](https://github.com/sSharonV/SOS-Offline-LiveCD/tree/main/More%20Customizations) content (bootloader menu & custom motd) to your `build-folder/config`
 	- Make sure you add it to `config/`. if you skipped this stage please perform two previous stages (Online/Offline Environment)
-3. `auto/build`
+2. `auto/build`
+
+### Dissect Setup
+1. Refer to instructions on [`Dissect/`](https://github.com/sSharonV/SOS-Offline-LiveCD/tree/main/Dissect).
 
 ## Stages of iso
 
