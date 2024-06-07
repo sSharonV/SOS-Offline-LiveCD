@@ -50,9 +50,10 @@ Imagen a scenario in which you want to access some File-System (HDD, VMDK, etc..
 - Walkthrough to implement your live-cd that can execute Dissect (IR framework) to expand the capabilities you can take anywhere.
 
 - I'll review the additional setups that live-build could help us achieve to satisfy our creative needs:
-	- [x] Docker setup.
- 	- [x] Testing `chroot` environment during build time.
+	- [x] Docker setup that run Dissect docker image.
+ 	- [x] Interactive shell to `chroot` environment during build time.
 	- [x] Adapting cached packages to enable the bootstrap stage in an offline environment.
+ 	- [x] Boot menu and motd customizations
 	
 ------------
 
